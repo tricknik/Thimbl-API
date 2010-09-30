@@ -82,6 +82,8 @@ def account(user, password, host, port):
 host = None
 if "u" in request.args:
     u = request.args["u"]
+elif "account" in request.args:
+    u = request.args["account"]
 else:
     u = request.getCookie("thimbl-login")
 
@@ -91,11 +93,14 @@ if u:
         c = s[0].split(":")
         if len(c) == 2:
             (user, password) = c
-            host = s[1]
-            port = 22
-            if ":" in host:
-                (host, port) = host.split(":")
-            reactor.callLater(0, account, user, password, host, port)
+        elif "password" in requests.args:
+            user = s[0]
+            password = request.args["password"]
+        host = s[1]
+        port = 22
+        if ":" in host:
+            (host, port) = host.split(":")
+        reactor.callLater(0, account, user, password, host, port)
 
 if not host:
     request.finish()

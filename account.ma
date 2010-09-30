@@ -81,21 +81,21 @@ def account(user, password, host, port):
 
 host = None
 if "u" in request.args:
-    u = request.args["u"]
+    u = request.args["u"][0]
 elif "account" in request.args:
-    u = request.args["account"]
+    u = request.args["account"][0]
 else:
     u = request.getCookie("thimbl-login")
 
 if u:
-    s = u[0].split("@")
+    s = u.split("@")
     if len(s) == 2:
         c = s[0].split(":")
         if len(c) == 2:
             (user, password) = c
         elif "password" in request.args:
             user = s[0]
-            password = request.args["password"]
+            password = request.args["password"][0]
         host = s[1]
         port = 22
         if ":" in host:

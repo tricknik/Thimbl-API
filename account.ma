@@ -93,7 +93,7 @@ if u:
         c = s[0].split(":")
         if len(c) == 2:
             (user, password) = c
-        elif "password" in requests.args:
+        elif "password" in request.args:
             user = s[0]
             password = request.args["password"]
         host = s[1]
